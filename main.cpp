@@ -13,6 +13,10 @@
 #define SENDER 379 //Sender truck id example
 #define RECV 110 //Receiver truck id example
 
+Data handle_data( Flags flag, std::string comm=" "){
+    return  Data data(SENDER,RECV, flag, comm);
+ 
+}
 void stop(){
     printf("stopping...");
 }
@@ -26,6 +30,7 @@ void speed_down(){
 }
 
 typedef enum flags{
+    ACCEPTED = !,
     
     SPEED_DOWN = -2,
     FAILED=-1,
@@ -50,11 +55,8 @@ typedef struct Data{
 // Driver code
 int main()
 {
-    Flags flag = READY;
     printf("started");
     char buffer[100];
-    Data data(SENDER,RECV, flag);
-    std::string message = "hello world";
     int sockfd, n;
     struct sockaddr_in servaddr;
     
@@ -77,9 +79,11 @@ int main()
     // request to send datagram
     // no need to specify server address in sendto
     // connect stores the peers IP and port
-    sendto(sockfd, &data, MAXLINE, 0, (struct sockaddr*)NULL, sizeof(servaddr));
+    sendto(sockfd, &handle_data(READY), MAXLINE, 0, (struct sockaddr*)NULL, sizeof(servaddr));
     while(1){
         int msgLen = recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
+        sendto(sockfd, &handle_data(ACCEPTED), MAXLINE, 0, (struct sockaddr*)NULL, sizeof(servaddr));
+
         sleep(1);
         //        ====================================================================================
         //required code for new version(from my point if view, but i could not).
@@ -99,10 +103,6 @@ int main()
         //        }
         //        ====================================================================================
     }
-    
-    // waiting for response
-    recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
-    puts(buffer);
     
     // close the descriptor
     close(sockfd);
