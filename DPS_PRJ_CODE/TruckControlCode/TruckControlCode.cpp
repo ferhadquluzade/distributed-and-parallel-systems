@@ -8,7 +8,6 @@
 #include <thread>
 #pragma comment(lib, "ws2_32.lib")
 #include "SFollowingTruckInfo.h"
-#include "SMessageFeedBack.h"
 #include "TransmissionHandler.h"
 #include "MessageHandler.h"
 
@@ -29,12 +28,12 @@ int main()
 	clock_t curTime, tempTime, sendTime;
 	int timeOut;
 
-	cout << "Set Truck Info:\n"
+	cout << "Set Truck Details:\n"
 		<< "Truck ID(int):";
 	cin >> truckInfo.m_truckID;
 	cout << "Current Velocity(km/h):";
 	cin >> truckInfo.m_velocity;
-	cout << "Current Distance(m):";
+	cout << "Current Distance(m) from leading truck:";
 	cin >> truckInfo.m_distance;
 	cout << "Following Time(s):";
 	cin >> timeOut;
@@ -56,6 +55,8 @@ int main()
 			wantToJoin = false;
 			truckInfo.m_request = 1;
 			truckInfo.m_velocity = msgHandler.getCurVelocity();
+			truckInfo.m_request = 0;
+			truckInfo.m_velocity = 100 * msgHandler.getCurVelocity();
 			tansHandler.sendMsg(truckInfo);
 		}
 		
