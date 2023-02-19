@@ -8,11 +8,11 @@ TransmissionHandler::TransmissionHandler()
 
 }
 
-TransmissionHandler::~TransmissionHandler()
-{
-	closesocket(sockSrv);
-	WSACleanup();
-}
+//TransmissionHandler::~TransmissionHandler()
+//{
+	//closesocket(sockSrv);
+//	WSACleanup();
+//}
 
 void TransmissionHandler::NetworkConfiguration()
 {
@@ -25,7 +25,7 @@ void TransmissionHandler::NetworkConfiguration()
 	err = WSAStartup(wVersionRequested, &wsaData);
 	if (err != 0)
 	{
-		cout << "Socket Lib Configuration Failed£¡" << endl;
+		cout << "Socket Lib Configuration FailedÂ£Â¡" << endl;
 	}
 
 	if (LOBYTE(wsaData.wVersion) != 2 ||
@@ -35,9 +35,10 @@ void TransmissionHandler::NetworkConfiguration()
 		return;
 	}
 
-	printf("Sever is operating!\n\n");
+	printf("Hello From the Server\n\n");
 	sockSrv = socket(AF_INET, SOCK_DGRAM, 0);
-
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(PORT_UDP);
 	SOCKADDR_IN addrSrv;     
 	addrSrv.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
 	addrSrv.sin_family = AF_INET;
@@ -117,6 +118,8 @@ SFollowingTruckInfo TransmissionHandler::recvMsg()
 	int len = sizeof(SOCKADDR);
 	SFollowingTruckInfo msg;
 	recvfrom(sockSrv, recvBuf, 100, 0, (SOCKADDR*)&addrClient, &len);
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(PORT_UDP);
 	memcpy(&msg, recvBuf, sizeof(SFollowingTruckInfo));
 	if (msg.m_request == RequestType::JOIN_REQUEST)
 		UDPAddressList.push_back(addrClient);
