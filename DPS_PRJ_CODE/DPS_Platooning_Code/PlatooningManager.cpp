@@ -56,17 +56,17 @@ int PlatooningManager::getNumOfFollowingTruck()
     return num;
 }
 
-//void PlatooningManager::updateSequenceNo(int startSequence)
+void PlatooningManager::updateSequenceNo(int startSequence)
 {
-    //_mtx.lock();
-   // for (auto iter = m_trucksMap.begin(); iter != m_trucksMap.end(); iter++)
+    _mtx.lock();
+    for (auto iter = m_trucksMap.begin(); iter != m_trucksMap.end(); iter++)
     {
-      //  int curSequence = iter->second->getFollowingSequence();
-       // if (curSequence > startSequence)
+        int curSequence = iter->second->getFollowingSequence();
+        if (curSequence > startSequence)
         {
-     //       iter->second->setFollowingSequence(curSequence - 1);
-    //    }
-  //  }
+            iter->second->setFollowingSequence(curSequence - 1);
+        }
+    }
     _mtx.unlock();
 }
 
