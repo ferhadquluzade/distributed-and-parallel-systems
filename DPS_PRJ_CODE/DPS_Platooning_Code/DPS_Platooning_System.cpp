@@ -7,31 +7,24 @@
 
 int main()
 {
-    TransmissionHandler transHandler;
-    transHandler.NetworkConfiguration();// Diagnose this 
-   // transHandler.ThreadInitialization();
+    TransmissionHandler transHandler; // create TransmissionHandler object
+    transHandler.NetworkConfiguration(); // configure network settings
+    transHandler.ThreadInitialization();// initialize TransmissionHandler thread
 
-    MessageHandler msgHandler;
-    msgHandler.ThreadInitialization();
+    MessageHandler msgHandler;// create MessageHandler object
+    msgHandler.ThreadInitialization();// initialize MessageHandler thread
 
-    while (1)
+    while (1) // infinite loop to continuously receive and handle messages
     {
-        SFollowingTruckInfo msg = transHandler.recvMsg();
+        SFollowingTruckInfo msg = transHandler.recvMsg(); // receive message from TransmissionHandler
 
-        msgHandler.OnMessage(msg, transHandler.clientAddr());
+        msgHandler.OnMessage(msg, transHandler.clientAddr()); // pass message and client address to MessageHandler
 
-        Sleep(500);
+        Sleep(500); // sleep for 500 milliseconds
 
-        SMessageFeedBack feedback = msgHandler.getHandlingFeedBack();
-        
-       // Sleep(500);
-      //  msgHandler.OnMessage(msg, transHandler.clientAddr());
+        SMessageFeedBack feedback = msgHandler.getHandlingFeedBack(); // retrieve feedback from MessageHandler
 
-        Sleep(500);
-
-        SMessageFeedBack feedback = msgHandler.getHandlingFeedBack();
-
-        transHandler.sendMsgOnce(feedback);
+        transHandler.sendMsgOnce(feedback); // send feedback message to TransmissionHandler
     }
 }
 
