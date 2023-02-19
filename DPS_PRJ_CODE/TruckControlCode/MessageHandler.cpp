@@ -8,8 +8,8 @@ int MessageHandler::Handle(const SMessageFeedBack& msgFeedback, bool & wantToJoi
 		desiredVelovity = (float)msgFeedback.m_velocity / 100;
 		if (desiredVelovity == 0)
 			return 0;
-		cout << "Velocity of Leading Truck:" << desiredVelovity << " km/h" << endl;
-		cout << "Velocity of Following Truck:" << curVelocoty << " km/h" << endl;
+		cout << "Velocity of Leading Truck:" << desiredVelovity << " m/h" << endl;
+		cout << "Velocity of Following Truck:" << curVelocoty << " m/h" << endl;
 		if (curVelocoty != 0)
 			desiredDistance = MINIMUN_SPACING + desiredVelovity * (curDistance / curVelocoty);
 		speedControl();
@@ -18,7 +18,7 @@ int MessageHandler::Handle(const SMessageFeedBack& msgFeedback, bool & wantToJoi
 	case 1:
 		if (msgFeedback.m_JoinAllowed == 1)
 		{
-			cout << "Recieved Feedback! Seccessful Join!" << endl;
+			cout << "Recieved Feedback!!! Seccessful Join!!" << endl;
 			followingSequence = msgFeedback.m_sequenceNo;
 		}
 		break;
