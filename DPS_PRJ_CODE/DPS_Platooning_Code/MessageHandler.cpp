@@ -52,6 +52,13 @@ void MessageHandler::msgHandleExecution()
 				else
 					feedbackMsg.m_JoinAllowed = Permission::REFUSED;
 				break;
+			case RequestType::CONTROL_REQUEST:
+				feedbackMsg.m_FeedbackType = FeedBackType::CONTROL_FEEDBACK;
+				cout << "\n";
+				cout << "Received the control request from Truck <" << m_truckInfo.m_truckID << "> " << endl;
+				cout << "		Current Velocity is : " << velocity <<"km/h"<<endl;
+
+				break;	
 			case RequestType::LEAVE_REQUEST:
 				cout << "\n";
 				cout << "Received the leave request from Truck <" << m_truckInfo.m_truckID << ">" << endl;
@@ -65,6 +72,13 @@ void MessageHandler::msgHandleExecution()
 				}
 				else
 					m_feedbak.m_LeaveAllowed = Permission::REFUSED;
+				break;
+			case RequestType::CONTROL_REQUEST:
+				feedbackMsg.m_FeedbackType = FeedBackType::CONTROL_FEEDBACK;
+				cout << "\n";
+				cout << "Received the control request from Truck <" << m_truckInfo.m_truckID << "> " << endl;
+				cout << "		Current Velocity is : " << velocity <<"km/h"<<endl;
+
 				break;
 			default:
 				break;
