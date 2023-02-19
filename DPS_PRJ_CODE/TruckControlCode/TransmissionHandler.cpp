@@ -22,7 +22,7 @@ void TransmissionHandler::Configuration()
 	err = WSAStartup(wVersionRequested, &wsaData);
 	if (err != 0)
 	{
-		cout << "Socket Lib Configuration Failed£¡" << endl;
+		cout << "Socket Lib Configuration FailedÂ£Â¡" << endl;
 	}
 
 	if (LOBYTE(wsaData.wVersion) != 2 ||
@@ -81,6 +81,3 @@ SMessageFeedBack TransmissionHandler::recvMsg()
 
 	return msgFeedback;
 }
-
-
-//
