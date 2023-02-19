@@ -30,7 +30,8 @@ extern "C" void PositionCalculation(float* coordinate, float* distance, float* r
 
 	//allocate GPU memory
 	cudaMalloc((void**)&dev_coordinate, 2 * sizeof(float));
-	cudaMalloc((void**)&dev_dis, size * sizeof(float));
+	//cudaMalloc((void**)&dev_dis, size * sizeof(float));
+	positionCalculateExecution << <1, size >> > (dev_coordinate, dev_dis, dev_rPos);
 	cudaMalloc((void**)&dev_rPos, size * sizeof(float));
 
 	//Copy input arry from host memory to GPU buffers. 
@@ -41,7 +42,7 @@ extern "C" void PositionCalculation(float* coordinate, float* distance, float* r
 	positionCalculateExecution << <1, size >> > (dev_coordinate, dev_dis, dev_rPos);
 
 	//Copy output arry from GPU device to Host
-	cudaMemcpy(relativePos, dev_rPos, size * sizeof(float), cudaMemcpyDeviceToHost);
+	cudaMemcpy(relativePos, dev_rPos, size * sizeof(float), cudaMemcpyDeviceToHost);// Not Working 
 
 	//Free device memory
 	cudaFree(dev_coordinate);
